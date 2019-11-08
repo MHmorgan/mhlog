@@ -1,13 +1,15 @@
 [package]
 name = "mhlog"
 version = "1.0.0"
-authors = ["Magnus Aa. Hirth <mhmorgan42@gmail.com>"]
+authors = ["Magnus Hirth <mhmorgan42@gmail.com>"]
 edition = "2018"
 description = "mhlog is a simple, thread-safe logging library."
 readme = "README.md"
 keywords = ["log", "logging", "simple"]
 categories = ["development-tools::debugging"]
 license = "BSD-3-Clause"
+repository = "https://github.com/MHmorgan/rustmhlog"
+documentation = "https://docs.rs/mhlog/"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
