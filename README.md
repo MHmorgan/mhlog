@@ -41,3 +41,6 @@ Each log message is prefixed, indicating the logging level. Logging levels are:
 
 Changelog
 ---------
+
+### v1.0.1
+- Added example
