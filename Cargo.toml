@@ -7,7 +7,7 @@ description = "mhlog is a simple, thread-safe logging library."
 readme = "README.md"
 keywords = ["log", "logging", "simple"]
 categories = ["development-tools::debugging"]
-license = "BSD 3-Clause License"
+license = "BSD-3-Clause"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
