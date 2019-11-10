@@ -13,9 +13,6 @@
 //! Writes log messages to _stdout_/_stderr_, and optionally to a log file.
 //! If an error occurs when writing to the log file it panics.
 
-// TODO: 
-//  - Add to crates.io
-
 extern crate chrono;
 extern crate dirs;
 #[macro_use]
