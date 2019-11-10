@@ -1,9 +1,9 @@
 mhlog
 =====
 
-![Latest version](https://img.shields.io/crates/v/mhlog.svg)
-![Documentation](https://docs.rs/mhlog/badge.svg)
-![GitHub license](https://img.shields.io/github/license/MHmorgan/rustmhlog)
+[![Latest version](https://img.shields.io/crates/v/mhlog.svg)](https://crates.io/crates/mhlog)
+[![Documentation](https://docs.rs/mhlog/badge.svg)](https://docs.rs/mhlog/)
+[![GitHub license](https://img.shields.io/github/license/MHmorgan/rustmhlog)](https://github.com/MHmorgan/rustmhlog/blob/master/LICENSE)
 
 mhlog is a simple, thread-safe logging library.
 
