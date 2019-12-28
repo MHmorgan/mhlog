@@ -42,5 +42,11 @@ Each log message is prefixed, indicating the logging level. Logging levels are:
 Changelog
 ---------
 
+### v1.1.0
+
+- Add support for verbose logging messages
+
+
 ### v1.0.1
+
 - Added example

@@ -40,6 +40,7 @@ lazy_static! {
 }
 
 // State variables
+static mut VERBOSE: bool = false;
 static mut LOGFILE: Option<File> = None;
 static mut LEVEL: u32 = Lvl::Important as u32;
 
@@ -203,14 +204,25 @@ pub fn init<T: ToString>(level: Lvl, prog_name: T, write2file: bool) -> Result<(
     res
 }
 
+/// Enable or disable verbose logging.
+/// 
+/// Verbose logging is done with verror, vwarning, etc.
+#[inline]
+pub fn verbose(val: bool) {
+    unsafe { VERBOSE = val; }
+}
+
 #[doc(hidden)]
-pub fn _log(lvl: Lvl, prefix: &str, msg: String) {
+pub fn _log(lvl: Lvl, verbose: bool, prefix: &str, msg: String) {
 
     // Get value of globals
+    let enb_v = unsafe { VERBOSE };
     let level = unsafe { LEVEL };
     let logfile = unsafe { &mut LOGFILE };
 
-    if level >= lvl as u32 {
+    // Only print if logging level is high enough, or verbose logging is enabled
+    // if it is a verbose logging.
+    if (level >= lvl as u32) && (!verbose || enb_v) {
 
         let now = Local::now();
         let mut lines = msg.lines();
@@ -267,7 +279,7 @@ pub fn _log(lvl: Lvl, prefix: &str, msg: String) {
 #[macro_export]
 macro_rules! log {
     ($lvl:expr, $prefix:tt, $($arg:tt)+) => (
-        $crate::_log($lvl, $prefix, format!($($arg)+));
+        $crate::_log($lvl, false, $prefix, format!($($arg)+));
     )
 }
 
@@ -331,6 +343,80 @@ macro_rules! debug {
 macro_rules! trace {
     ($($arg:tt)+) => (
         $crate::log!($crate::Lvl::Trace, "[.]", $($arg)+);
+    )
+}
+
+// -----------------------------------------------------------------------------
+// Verbose logging methods
+
+#[doc(hidden)]
+#[macro_export]
+macro_rules! vlog {
+    ($lvl:expr, $prefix:tt, $($arg:tt)+) => (
+        $crate::_log($lvl, true, $prefix, format!($($arg)+));
+    )
+}
+
+/// Print a verbose fatal log message.   
+/// Prefix: `[!!]`
+#[macro_export]
+macro_rules! vfatal {
+    ($($arg:tt)+) => (
+        $crate::vlog!($crate::Lvl::Fatal, "[!!]", $($arg)+);
+    )
+}
+
+/// Print a verbose error log message.  
+/// Prefix: `[!]`
+#[macro_export]
+macro_rules! verror {
+    ($($arg:tt)+) => (
+        $crate::vlog!($crate::Lvl::Error, "[!]", $($arg)+);
+    )
+}
+
+/// Print a verbose warning log message.  
+/// Prefix: `[-]`
+#[macro_export]
+macro_rules! vwarning {
+    ($($arg:tt)+) => (
+        $crate::vlog!($crate::Lvl::Warning, "[-]", $($arg)+);
+    )
+}
+
+/// Print a verbose important log message.   
+/// Prefix: `[*]`
+#[macro_export]
+macro_rules! vimportant {
+    ($($arg:tt)+) => (
+        $crate::vlog!($crate::Lvl::Important, "[*]", $($arg)+);
+    )
+}
+
+/// Print a verbose info log message.   
+/// Prefix: `[ ]`
+#[macro_export]
+macro_rules! vinfo {
+    ($($arg:tt)+) => ({
+        $crate::vlog!($crate::Lvl::Info, "[ ]", $($arg)+);
+    })
+}
+
+/// Print a verbose debug log message.  
+/// Prefix: `[~]`
+#[macro_export]
+macro_rules! vdebug {
+    ($($arg:tt)+) => (
+        $crate::vlog!($crate::Lvl::Debug, "[~]", $($arg)+);
+    )
+}
+
+/// Print a verbose trace log message.   
+/// Prefix: `[.]`
+#[macro_export]
+macro_rules! vtrace {
+    ($($arg:tt)+) => (
+        $crate::vlog!($crate::Lvl::Trace, "[.]", $($arg)+);
     )
 }
 
