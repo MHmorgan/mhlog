@@ -12,35 +12,40 @@ Usage
 
 ```toml
 [dependencies]
-mhlog = "1.0"
+mhlog = "~2.0.0"
 ```
 
 ```rust
 extern crate mhlog;
 
-use mhlog::{info,error};
+use mhlog::{log,info,warn,err};
 
-mhlog::init(mhlog::Lvl::Info, "test", false);
-info!("an info message");
-error!("an error message...");
+log!("Log message. Prefixed with a timestamp. It's {}", "thread-safe!");
+info!("Logging message prefixed by '<timestamp> Info:' ");
+warn!("Warning message prefixed by '<timestamp> Warning:' ");
+err!("Error message prefixed by '<timestamp> Error:' ");
 ```
 
-Writes log messages to _stdout_/_stderr_, and optionally to a log file.
+Writes log messages to `stdout`/`stderr`. The writes are thread-safe.
 If an error occurs when writing to the log file it panics.
 
-Each log message is prefixed, indicating the logging level. Logging levels are:
+Provided logging macros:
 
-- Fatal
-- Error
-- Warning
-- Important
-- Info
-- Debug
-- Trace
+- `log!()`
+- `info!()`
+- `warn!()`
+- `err!()`
 
 
 Changelog
 ---------
+
+### v2.0.0
+
+- Even simpler interface
+- Reduced interface to only `err`, `warn`, `info`, and `log`
+- No writing to file, only stdout (should pipe log output instead)
+
 
 ### v1.1.0
 

@@ -1,20 +1,10 @@
 extern crate mhlog;
 
-use mhlog::{fatal,error,important,info,debug,trace};
+use mhlog::{log,info,warn,err};
 
 fn main() {
-
-    // Logging without initialization
-    debug!("Debug messages are not shown without initialization");
-    important!("Without initialization important, error and fatal messages are shown");
-
-    mhlog::init(mhlog::Lvl::Trace, "logtest", false)
-        .expect("failed to initialize mhlog");
-
-    trace!("log trace");
-    debug!("log debug");
-    info!("log info");
-    important!("log important");
-    error!("log error");
-    fatal!("log fatal\nmultiline messages are also handled\ngoodbye");
+    log!("Log message. Prefixed with a timestamp. It's {}", "thread-safe!");
+    info!("Logging message prefixed by '<timestamp> INFO:' ");
+    warn!("Warning message prefixed by '<timestamp> WARN:' ");
+    err!("Error message prefixed by '<timestamp> ERROR:' ");
 }
