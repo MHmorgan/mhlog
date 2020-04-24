@@ -2,6 +2,7 @@ mhlog
 =====
 
 [![Latest version](https://img.shields.io/crates/v/mhlog.svg)](https://crates.io/crates/mhlog)
+![Downloads](https://img.shields.io/crates/d/mhlog)
 [![Documentation](https://docs.rs/mhlog/badge.svg)](https://docs.rs/mhlog/)
 [![GitHub license](https://img.shields.io/github/license/MHmorgan/rustmhlog)](https://github.com/MHmorgan/rustmhlog/blob/master/LICENSE)
 
