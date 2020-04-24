@@ -1,6 +1,6 @@
 [package]
 name = "mhlog"
-version = "1.1.0"
+version = "2.0.0"
 authors = ["m <mhmorgan42@gmail.com>"]
 edition = "2018"
 description = "mhlog is a simple, thread-safe logging library."
@@ -11,9 +11,7 @@ license = "BSD-3-Clause"
 repository = "https://github.com/MHmorgan/rustmhlog"
 documentation = "https://docs.rs/mhlog/"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-lazy_static = "1.4.0"
-dirs = "2.0.2"
-chrono = "0.4"
+lazy_static = "~1.4.0"
+chrono = "~0.4.11"
