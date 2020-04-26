@@ -1,12 +1,12 @@
-mhlog
+MHlog
 =====
 
-[![Latest version](https://img.shields.io/crates/v/mhlog.svg)](https://crates.io/crates/mhlog)
-![Downloads](https://img.shields.io/crates/d/mhlog)
-[![Documentation](https://docs.rs/mhlog/badge.svg)](https://docs.rs/mhlog/)
-[![GitHub license](https://img.shields.io/github/license/MHmorgan/rustmhlog)](https://github.com/MHmorgan/rustmhlog/blob/master/LICENSE)
+[![Travis CI build status](https://img.shields.io/travis/com/MHmorgan/mhlog/master?style=flat-square)](https://travis-ci.com/MHmorgan/mhlog)
+[![Crates.io latest version](https://img.shields.io/crates/v/mhlog?style=flat-square)](https://crates.io/crates/mhlog)
+![Crates.io downloads](https://img.shields.io/crates/d/mhlog?style=flat-square)
+![GitHub license](https://img.shields.io/github/license/MHmorgan/mhlog?style=flat-square)
 
-mhlog is a simple, thread-safe logging library.
+MHlog is a simple, thread-safe logging library.
 
 Usage
 -----
