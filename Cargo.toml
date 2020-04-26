@@ -11,6 +11,8 @@ license = "BSD-3-Clause"
 repository = "https://github.com/MHmorgan/rustmhlog"
 documentation = "https://docs.rs/mhlog/"
 
+[badges]
+travis-ci = { repository = "MHmorgan/mhlog", branch = "master" }
 
 [dependencies]
 lazy_static = "~1.4.0"
