@@ -13,7 +13,7 @@ Usage
 
 ```toml
 [dependencies]
-mhlog = "~2.0.0"
+mhlog = "2.1.0"
 ```
 
 ```rust
@@ -37,9 +37,34 @@ Provided logging macros:
 - `warn!()`
 - `err!()`
 
+Features
+--------
+
+### Writing to stdout
+
+By default all log messages are printed to **stderr**. To make `log!()` and `info!()` print to **stdout** instead, enable the `log2stdout` feature.
+
+```toml
+[dependencies]
+mhlog = { version = "*", features = ["log2stdout"] }
+```
+
+### Coloured log messages
+
+Coloured log messages can be enabled with the `colours` feature.
+
+```toml
+[dependencies]
+mhlog = { version = "*", features = ["colours"] }
+```
 
 Changelog
 ---------
+
+### v2.1.0
+
+- Log all messages to **stderr** by default. Can be disabled with feature `log2stdout`.
+- Add support for coloured log messages with `coloured` feature.
 
 ### v2.0.0
 
