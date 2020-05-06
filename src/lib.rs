@@ -15,12 +15,6 @@
 //! Usage
 //! -----
 //!
-//! Cargo.toml:
-//! ```toml
-//! [dependencies]
-//! mhlog = "~2.0.0"
-//! ```
-//!
 //! ```rust
 //! extern crate mhlog;
 //!
