@@ -1,6 +1,6 @@
 [package]
 name = "mhlog"
-version = "2.1.0"
+version = "2.1.1"
 authors = ["m <mhmorgan42@gmail.com>"]
 edition = "2018"
 description = "MHlog is a simple, thread-safe logging library."
