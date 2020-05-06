@@ -33,6 +33,12 @@
 //! ```
 
 extern crate chrono;
+#[cfg(feature = "colours")]
+extern crate console;
+
+#[cfg(feature = "colours")]
+#[doc(hidden)]
+pub use console::style;
 
 use chrono::prelude::*;
 use std::fmt::Display;
@@ -48,8 +54,17 @@ pub fn _log(prefix: impl Display, msg: String, err: bool) {
     use std::io::{stderr, stdout, Write};
 
     let timestamp = Local::now().format(TIME_FMT).to_string();
+    // Style the timestamp if colours enabled. Must be handlet differently
+    // for stderr and stdout.
+    #[cfg(feature = "colours")]
+    let timestamp = match err || cfg!(not(feature = "log2stdout")) {
+        true  => style(timestamp).for_stderr().cyan().dim(),
+        false => style(timestamp).for_stdout().cyan().dim(),
+    };
+
     let txt = format!("{} {}{}\n", timestamp, prefix, msg);
 
+    // Unless log2stdout enabled, always print to stderr.
     if err || cfg!(not(feature = "log2stdout")) {
         let _ = stderr().lock().write_all(txt.as_bytes());
     } else {
@@ -75,7 +90,13 @@ macro_rules! log {
 #[macro_export]
 macro_rules! info {
     ($($arg:tt)+) => ({
+        #[cfg(not(feature = "colours"))]
         $crate::_log("Info: ", format!($($arg)+), false);
+        #[cfg(feature = "colours")]
+        match cfg!(feature = "log2stdout") {
+            true  => $crate::_log($crate::style("Info: ").for_stdout().bold().green(), format!($($arg)+), false),
+            false => $crate::_log($crate::style("Info: ").for_stderr().bold().green(), format!($($arg)+), false),
+        }
     })
 }
 
@@ -83,7 +104,10 @@ macro_rules! info {
 #[macro_export]
 macro_rules! warn {
     ($($arg:tt)+) => (
+        #[cfg(not(feature = "colours"))]
         $crate::_log("Warning: ", format!($($arg)+), true);
+        #[cfg(feature = "colours")]
+        $crate::_log($crate::style("Warning: ").for_stderr().bold().yellow(), format!($($arg)+), true);
     )
 }
 
@@ -91,6 +115,9 @@ macro_rules! warn {
 #[macro_export]
 macro_rules! err {
     ($($arg:tt)+) => (
+        #[cfg(not(feature = "colours"))]
         $crate::_log("Error: ", format!($($arg)+), true);
+        #[cfg(feature = "colours")]
+        $crate::_log($crate::style("Error: ").for_stderr().bold().red(), format!($($arg)+), true);
     )
 }
