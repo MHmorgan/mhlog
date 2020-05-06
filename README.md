@@ -61,6 +61,10 @@ mhlog = { version = "*", features = ["colours"] }
 Changelog
 ---------
 
+### v2.1.1
+
+- Update crate documentation.
+
 ### v2.1.0
 
 - Log all messages to **stderr** by default. Can be disabled with feature `log2stdout`.
