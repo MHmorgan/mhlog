@@ -8,11 +8,12 @@ readme = "README.md"
 keywords = ["log", "logging", "simple"]
 categories = ["development-tools::debugging"]
 license = "BSD-3-Clause"
-repository = "https://github.com/MHmorgan/rustmhlog"
+repository = "https://github.com/MHmorgan/mhlog"
 documentation = "https://docs.rs/mhlog/"
 
 [badges]
 travis-ci = { repository = "MHmorgan/mhlog", branch = "master" }
+maintenance = { status = "actively-developed" }
 
 [features]
 # If enabled logging statements will be coloured.

@@ -7,10 +7,10 @@
 //!
 //! Provided logging macros:
 //!
-//! - `log!()`
-//! - `info!()`
-//! - `warn!()`
-//! - `err!()`
+//! - [`log!()`]
+//! - [`info!()`]
+//! - [`warn!()`]
+//! - [`err!()`]
 //!
 //! Usage
 //! -----
@@ -25,6 +25,32 @@
 //! warn!("Warning message prefixed by '<timestamp> Warning:' ");
 //! err!("Error message prefixed by '<timestamp> Error:' ");
 //! ```
+//! 
+//! Features
+//! --------
+//! 
+//! ### Writing to stdout
+//! 
+//! By default all log messages are printed to **stderr**. To make [`log!()`] and [`info!()`] print to **stdout** instead, enable the `log2stdout` feature.
+//! 
+//! ```toml
+//! [dependencies]
+//! mhlog = { version = "*", features = ["log2stdout"] }
+//! ```
+//! 
+//! ### Coloured log messages
+//! 
+//! Coloured log messages can be enabled with the `colours` feature.
+//! 
+//! ```toml
+//! [dependencies]
+//! mhlog = { version = "*", features = ["colours"] }
+//! ```
+//! 
+//! [`log!()`]: macro.log.html
+//! [`info!()`]: macro.info.html
+//! [`warn!()`]: macro.warn.html
+//! [`err!()`]: macro.err.html
 
 extern crate chrono;
 #[cfg(feature = "colours")]
