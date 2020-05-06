@@ -11,11 +11,6 @@ MHlog is a simple, thread-safe logging library.
 Usage
 -----
 
-```toml
-[dependencies]
-mhlog = "2.1.0"
-```
-
 ```rust
 extern crate mhlog;
 
