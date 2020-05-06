@@ -37,8 +37,8 @@ extern crate chrono;
 #[macro_use]
 extern crate lazy_static;
 
-use std::sync::Mutex;
 use chrono::prelude::*;
+use std::sync::Mutex;
 
 
 // -----------------------------------------------------------------------------
@@ -62,13 +62,13 @@ pub fn _log(prefix: Option<&str>, msg: String, err: bool) {
     let _lock = MTX.lock();
 
     if let Some(prefix) = prefix {
-        if err {
+        if err || cfg!(not(feature = "log2stdout")) {
             eprintln!("{} {} {}", timestamp, prefix, msg);
         } else {
             println!("{} {} {}", timestamp, prefix, msg);
         }
     } else {
-        if err {
+        if err || cfg!(not(feature = "log2stdout")) {
             eprintln!("{} {}", timestamp, msg);
         } else {
             println!("{} {}", timestamp, msg);
