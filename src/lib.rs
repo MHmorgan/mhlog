@@ -25,28 +25,28 @@
 //! warn!("Warning message prefixed by '<timestamp> Warning:' ");
 //! err!("Error message prefixed by '<timestamp> Error:' ");
 //! ```
-//! 
+//!
 //! Features
 //! --------
-//! 
+//!
 //! ### Writing to stdout
-//! 
+//!
 //! By default all log messages are printed to **stderr**. To make [`log!()`] and [`info!()`] print to **stdout** instead, enable the `log2stdout` feature.
-//! 
+//!
 //! ```toml
 //! [dependencies]
 //! mhlog = { version = "*", features = ["log2stdout"] }
 //! ```
-//! 
+//!
 //! ### Coloured log messages
-//! 
+//!
 //! Coloured log messages can be enabled with the `colours` feature.
-//! 
+//!
 //! ```toml
 //! [dependencies]
 //! mhlog = { version = "*", features = ["colours"] }
 //! ```
-//! 
+//!
 //! [`log!()`]: macro.log.html
 //! [`info!()`]: macro.info.html
 //! [`warn!()`]: macro.warn.html
@@ -57,14 +57,10 @@ extern crate chrono;
 extern crate console;
 
 #[cfg(feature = "colours")]
-#[doc(hidden)]
-pub use console::style;
+use console::style;
 
 use chrono::prelude::*;
-use std::fmt::Display;
-
-// -----------------------------------------------------------------------------
-// Globals variables
+use std::fmt::{self, Display};
 
 // Time format in logging messages
 const TIME_FMT: &'static str = "%F %T";
@@ -78,7 +74,7 @@ pub fn _log(prefix: impl Display, msg: String, err: bool) {
     // for stderr and stdout.
     #[cfg(feature = "colours")]
     let timestamp = match err || cfg!(not(feature = "log2stdout")) {
-        true  => style(timestamp).for_stderr().cyan().dim(),
+        true => style(timestamp).for_stderr().cyan().dim(),
         false => style(timestamp).for_stdout().cyan().dim(),
     };
 
@@ -92,17 +88,11 @@ pub fn _log(prefix: impl Display, msg: String, err: bool) {
     }
 }
 
-/*******************************************************************************
- *                                                                             *
- *  macros
- *                                                                             *
- *******************************************************************************/
-
 /// Print a log message, prefixed by a timestamp.
 #[macro_export]
 macro_rules! log {
     ($($arg:tt)+) => (
-        $crate::_log("", format!($($arg)+), false);
+        $crate::_log($crate::Prefix::None, format!($($arg)+), false);
     )
 }
 
@@ -110,13 +100,7 @@ macro_rules! log {
 #[macro_export]
 macro_rules! info {
     ($($arg:tt)+) => ({
-        #[cfg(not(feature = "colours"))]
-        $crate::_log("Info: ", format!($($arg)+), false);
-        #[cfg(feature = "colours")]
-        match cfg!(feature = "log2stdout") {
-            true  => $crate::_log($crate::style("Info: ").for_stdout().bold().green(), format!($($arg)+), false),
-            false => $crate::_log($crate::style("Info: ").for_stderr().bold().green(), format!($($arg)+), false),
-        }
+        $crate::_log($crate::Prefix::Info, format!($($arg)+), false);
     })
 }
 
@@ -124,10 +108,7 @@ macro_rules! info {
 #[macro_export]
 macro_rules! warn {
     ($($arg:tt)+) => (
-        #[cfg(not(feature = "colours"))]
-        $crate::_log("Warning: ", format!($($arg)+), true);
-        #[cfg(feature = "colours")]
-        $crate::_log($crate::style("Warning: ").for_stderr().bold().yellow(), format!($($arg)+), true);
+        $crate::_log($crate::Prefix::Warning, format!($($arg)+), true);
     )
 }
 
@@ -135,9 +116,36 @@ macro_rules! warn {
 #[macro_export]
 macro_rules! err {
     ($($arg:tt)+) => (
-        #[cfg(not(feature = "colours"))]
-        $crate::_log("Error: ", format!($($arg)+), true);
-        #[cfg(feature = "colours")]
-        $crate::_log($crate::style("Error: ").for_stderr().bold().red(), format!($($arg)+), true);
+        $crate::_log($crate::Prefix::Error, format!($($arg)+), true);
     )
+}
+
+#[doc(hidden)]
+pub enum Prefix {
+    None,
+    Info,
+    Warning,
+    Error,
+}
+
+impl Display for Prefix {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        #[cfg(not(feature = "colours"))]
+        match self {
+            Prefix::Info => write!(f, "Info: "),
+            Prefix::Warning => write!(f, "Warning: "),
+            Prefix::Error => write!(f, "Error: "),
+            _ => write!(f, ""),
+        }
+        #[cfg(feature = "colours")]
+        match self {
+            Prefix::Info if cfg!(feature = "log2stdout") => {
+                write!(f, "{}", style("Info: ").for_stdout().bold().green())
+            }
+            Prefix::Info => write!(f, "{}", style("Info: ").for_stderr().bold().green()),
+            Prefix::Warning => write!(f, "{}", style("Warning: ").for_stderr().bold().yellow()),
+            Prefix::Error => write!(f, "{}", style("Error: ").for_stderr().bold().red()),
+            _ => write!(f, ""),
+        }
+    }
 }

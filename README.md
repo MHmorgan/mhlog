@@ -61,6 +61,10 @@ mhlog = { version = "*", features = ["colours"] }
 Changelog
 ---------
 
+### v2.1.2
+
+- Bugfix
+
 ### v2.1.1
 
 - Update crate documentation.
