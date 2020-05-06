@@ -20,5 +20,4 @@ travis-ci = { repository = "MHmorgan/mhlog", branch = "master" }
 log2stdout = []
 
 [dependencies]
-lazy_static = "1.4.0"
 chrono = "0.4.11"

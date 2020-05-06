@@ -1,4 +1,4 @@
-//! 
+//!
 //! A tiny, simple, thread-safe logging library.
 //! No configuration options, take it or leave it.
 //!
@@ -32,14 +32,10 @@
 //! err!("Error message prefixed by '<timestamp> Error:' ");
 //! ```
 
-
 extern crate chrono;
-#[macro_use]
-extern crate lazy_static;
 
 use chrono::prelude::*;
-use std::sync::Mutex;
-
+use std::fmt::Display;
 
 // -----------------------------------------------------------------------------
 // Globals variables
@@ -47,36 +43,19 @@ use std::sync::Mutex;
 // Time format in logging messages
 const TIME_FMT: &'static str = "%F %T";
 
-// Synchronization variables
-lazy_static! {
-    static ref MTX: Mutex<u32> = Mutex::new(0);
-}
-
-
 #[doc(hidden)]
-pub fn _log(prefix: Option<&str>, msg: String, err: bool) {
+pub fn _log(prefix: impl Display, msg: String, err: bool) {
+    use std::io::{stderr, stdout, Write};
 
     let timestamp = Local::now().format(TIME_FMT).to_string();
-        
-    // Make sure log messages don't overlap
-    let _lock = MTX.lock();
+    let txt = format!("{} {}{}\n", timestamp, prefix, msg);
 
-    if let Some(prefix) = prefix {
-        if err || cfg!(not(feature = "log2stdout")) {
-            eprintln!("{} {} {}", timestamp, prefix, msg);
-        } else {
-            println!("{} {} {}", timestamp, prefix, msg);
-        }
+    if err || cfg!(not(feature = "log2stdout")) {
+        let _ = stderr().lock().write_all(txt.as_bytes());
     } else {
-        if err || cfg!(not(feature = "log2stdout")) {
-            eprintln!("{} {}", timestamp, msg);
-        } else {
-            println!("{} {}", timestamp, msg);
-        }
+        let _ = stdout().lock().write_all(txt.as_bytes());
     }
-
 }
-
 
 /*******************************************************************************
  *                                                                             *
@@ -88,7 +67,7 @@ pub fn _log(prefix: Option<&str>, msg: String, err: bool) {
 #[macro_export]
 macro_rules! log {
     ($($arg:tt)+) => (
-        $crate::_log(None, format!($($arg)+), false);
+        $crate::_log("", format!($($arg)+), false);
     )
 }
 
@@ -96,7 +75,7 @@ macro_rules! log {
 #[macro_export]
 macro_rules! info {
     ($($arg:tt)+) => ({
-        $crate::_log(Some("Info:"), format!($($arg)+), false);
+        $crate::_log("Info: ", format!($($arg)+), false);
     })
 }
 
@@ -104,7 +83,7 @@ macro_rules! info {
 #[macro_export]
 macro_rules! warn {
     ($($arg:tt)+) => (
-        $crate::_log(Some("Warning:"), format!($($arg)+), true);
+        $crate::_log("Warning: ", format!($($arg)+), true);
     )
 }
 
@@ -112,6 +91,6 @@ macro_rules! warn {
 #[macro_export]
 macro_rules! err {
     ($($arg:tt)+) => (
-        $crate::_log(Some("Error:"), format!($($arg)+), true);
+        $crate::_log("Error: ", format!($($arg)+), true);
     )
 }
