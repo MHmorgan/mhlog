@@ -1,4 +1,4 @@
-![MHlog](./mhlog_18.svg)
+![MHlog](./mhlog.svg)
 
 [![Travis CI build status](https://img.shields.io/travis/com/MHmorgan/mhlog/master?style=flat-square)](https://travis-ci.com/MHmorgan/mhlog)
 [![Crates.io latest version](https://img.shields.io/crates/v/mhlog?style=flat-square)](https://crates.io/crates/mhlog)
