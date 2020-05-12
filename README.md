@@ -4,6 +4,7 @@
 [![Crates.io latest version](https://img.shields.io/crates/v/mhlog?style=flat-square)](https://crates.io/crates/mhlog)
 ![Crates.io downloads](https://img.shields.io/crates/d/mhlog?style=flat-square)
 ![GitHub license](https://img.shields.io/github/license/MHmorgan/mhlog?style=flat-square)
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/MHmorgan/mhlog) 
 
 MHlog is a simple, thread-safe logging library.
 
