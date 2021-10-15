@@ -8,53 +8,16 @@
 
 MHlog is a simple, thread-safe logging library.
 
-Usage
------
-
-```rust
-extern crate mhlog;
-
-use mhlog::{log,info,warn,err};
-
-log!("Log message. Prefixed with a timestamp. It's {}", "thread-safe!");
-info!("Logging message prefixed by '<timestamp> Info:' ");
-warn!("Warning message prefixed by '<timestamp> Warning:' ");
-err!("Error message prefixed by '<timestamp> Error:' ");
-```
-
-Writes log messages to `stdout`/`stderr`. The writes are thread-safe.
-If an error occurs when writing to the log file it panics.
-
-Provided logging macros:
-
-- `log!()`
-- `info!()`
-- `warn!()`
-- `err!()`
-
-Features
---------
-
-### Writing to stdout
-
-By default all log messages are printed to **stderr**. To make `log!()` and `info!()` print to **stdout** instead, enable the `log2stdout` feature.
-
-```toml
-[dependencies]
-mhlog = { version = "*", features = ["log2stdout"] }
-```
-
-### Coloured log messages
-
-Coloured log messages can be enabled with the `colours` feature.
-
-```toml
-[dependencies]
-mhlog = { version = "*", features = ["colours"] }
-```
+See the [documentation](https://docs.rs/mhlog/)
 
 Changelog
 ---------
+
+### v3.0.0
+
+- Update interface: `err`, `warn`, `info`, `verbose`, and `debug`.
+- Better stdout/stderr defaults.
+- Allow customization of message prefixes.
 
 ### v2.1.2
 
