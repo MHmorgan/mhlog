@@ -13,6 +13,10 @@ See the [documentation](https://docs.rs/mhlog/)
 Changelog
 ---------
 
+### v3.0.1
+
+- Bail bugfix
+
 ### v3.0.0
 
 - Update interface: `err`, `warn`, `info`, `verbose`, and `debug`.
