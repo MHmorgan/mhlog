@@ -184,7 +184,7 @@ macro_rules! debug {
 #[macro_export]
 macro_rules! bail {
     ($($arg:tt)+) => ({
-        $crate::err($($arg)+);
+        $crate::err!($($arg)+);
         std::process::exit(1);
     });
 }
