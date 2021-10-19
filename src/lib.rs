@@ -1,5 +1,4 @@
 //! A tiny, simple, thread-safe logging library.
-//! No configuration options, take it or leave it.
 //!
 //! Writes log messages to `stdout`/`stderr`. The writes are thread-safe.
 //! 
